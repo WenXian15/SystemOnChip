@@ -43,3 +43,4 @@ Address Boundaries (burst operation)
 - From AHB, we learn that there is a 10KB address boundaries.  For AXI, there is a 4K boundary.  Meaning from 0x000-0xFFF, 0x1000-0x1FFF, 0x2000-0x2FFF.  Each are considered a 4KB boundary.
 - Boundaries are used because of some 4k page thing.  PCIe is also not allowed to cross the 4K boundary.
 https://www.reddit.com/r/FPGA/comments/1cxukto/do_i_understand_4k_boundary_correctly/
+https://www.linkedin.com/pulse/constraint-axi-4kb-boundary-mohamed-irsath-i-auunc
