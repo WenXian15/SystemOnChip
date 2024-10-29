@@ -15,10 +15,10 @@ SINGLE, INCR, WRAP4, INCR4, WRAP8, INCR8, WRAP16, INCR16
 
 
 
-
 Important concepts 
 
 Address Alignment
+- What is address alignment?  
 - The AXI and AHB protocols handle transaction address differently, so the AXI to AHB bridge must perform address alignment.  The AHB protocol does not support unaligned transfer.
 
 Address Boundaries (burst operation)
