@@ -1,3 +1,8 @@
+Arm Modern SoC
+
+Processor, IP and Memory Blocks
+SoC Interconnect
+
 Mailbox
 Watchdog timer
 
