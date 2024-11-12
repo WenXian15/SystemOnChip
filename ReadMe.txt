@@ -6,6 +6,8 @@ SoC Interconnect
 Mailbox
 Watchdog timer
 
+eSPI
+
 
 ==========
 Components
