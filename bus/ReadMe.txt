@@ -18,8 +18,9 @@ SINGLE, INCR, WRAP4, INCR4, WRAP8, INCR8, WRAP16, INCR16
 Important concepts 
 
 Address Alignment
-- What is address alignment?  
-- The AXI and AHB protocols handle transaction address differently, so the AXI to AHB bridge must perform address alignment.  The AHB protocol does not support unaligned transfer.
+- What is address alignment?  The address can be divided by n where is the number of byte of data.
+- For example 32-bit or 4 byte can start from address 0x00, 0x04, 0x08, 0xc0 where the last 2 bits of the address are always zero.
+- The AHB protocol does not support unaligned transfer.
 
 Address Boundaries (burst operation)
 - The AHB protocol is constrainted to have burst not crossing a 1KB address boundary.
