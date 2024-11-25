@@ -1,5 +1,0 @@
-UART
-SPI
-I2C
-I3C
-SuperI/O
