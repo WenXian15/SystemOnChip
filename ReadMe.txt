@@ -37,6 +37,7 @@ Description:
                  The Flash Access Channel allows the system processor to share the system SPI Flash between the BIOS, Management Engine (ME) and the EC, BMC and SIO. This reduces system cost by reducing the number of SPI Flash chips in the system.
 Reference : 
 1. https://www.microchip.com/en-us/solutions/data-centers-and-computing/computing-solutions/technologies/espi
+2. https://support.apple.com/en-my/guide/security/sec5d0fab7c6/web (Apple Intel based Mac fetches UEFI firmware through eSPI from T2 Chip)
 
 
 SMBUS (System Management Bus)
