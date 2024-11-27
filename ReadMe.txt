@@ -24,8 +24,9 @@ Reference:
 eSPI
 ****
 Description: 
-1. All in one bus designed to replace the LPC bus (Embedded Controller (EC), Baseboard Management Controller (BMC) and Super I/O (SIO)) as well as the SPI bus, SMbus and sideband signals.
-2. Consists of 4 channels
+1. LPC (Low Pin Count) bus has been used to connect various devices, such as an Embedded Controller (EC), Baseboard Management Controller (BMC), Super I/O (SIO) controller, system Flash storage that is used to store the BIOS code, and the Trusted Platform Module (TPM) to the system core logic.
+2. eSPI is designed as an all-in-one bus to replace the LPC bus (Embedded Controller (EC), Baseboard Management Controller (BMC) and Super I/O (SIO)) as well as the SPI bus, SMbus and sideband signals.
+3. Consists of 4 channels
     - Channel 0: Peripheral Channel (memory reads/writes)
                  The Peripheral channel is used to communicate with devices located in the EC, BMC and SIO that were formerly found on the LPC bus. They include UARTS, mailbox registers, port 80 registers, embedded memory interfaces and the keyboard                         controller. The Peripheral channel also includes support for a Bus Mastering channel. The Bus Master capability allows the EC to read/write data directly to/from the main system memory.
     - Channel 1: Virtual Wire Channel (sideband signals)
