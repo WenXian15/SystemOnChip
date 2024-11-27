@@ -67,7 +67,8 @@ References:
 Super I/O (SIO) - Still dont understand
 ***************
 Description:
-1. Super I/O combines legacy functions (serial port, parallel ports, PS2) with hardware monitoring and general-purpose I/O to reduce the number of chips required in your design.
+1. Super I/O combines legacy functions (serial port, parallel ports, PS2) into a single chip to reduce the number of chips required in your design.
+2. SIO was connected to the chipset through the Low Pin Count (LPC) bus before eSPI.
 Refernces:
 1. https://www.microchip.com/en-us/products/embedded-controllers-and-super-io
 
