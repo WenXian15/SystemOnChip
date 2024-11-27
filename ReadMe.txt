@@ -6,9 +6,9 @@ SoC Interconnect
 Mailbox
 Watchdog timer
 
-Peripheral Bus
 
 I2C, I3C, SPI
+*************
 Description:
 1. Both I²C and SPI are typically used to support multiple sensors, but they both have drawbacks for sensor interconnections.
 Effective Data Rate:
@@ -20,19 +20,56 @@ Reference:
 2. https://www.ti.com/content/dam/videos/external-videos/en-us/9/3816841626001/6305803223112.mp4/subassets/i3c_technology_training_2.pdf
 3. https://introspect.ca/blog/how-to-test-mctp-over-i3c/
 
-SMBUS
-
-
-LTPI
-PECI
-Super I/O (SIO)
 
 eSPI
+****
 Description: 
 1. All in one bus designed to replace the LPC bus (Embedded Controller (EC), Baseboard Management Controller (BMC) and Super I/O (SIO)) as well as the SPI bus, SMbus and sideband signals.
+2. Consists of 4 channels
+    - Channel 0: Peripheral Channel (memory reads/writes)
+                 The Peripheral channel is used to communicate with devices located in the EC, BMC and SIO that were formerly found on the LPC bus. They include UARTS, mailbox registers, port 80 registers, embedded memory interfaces and the keyboard                         controller. The Peripheral channel also includes support for a Bus Mastering channel. The Bus Master capability allows the EC to read/write data directly to/from the main system memory.
+    - Channel 1: Virtual Wire Channel (sideband signals)
+                 The Virtual Wire Channel is used to transmit the sideband signal information to/from the EC, BMC and SIO. Interrupts from peripheral devices, such as a UART, are also transmitted over the Virtual Wire channel. This channel greatly reduces                   the pin count and cost of the eSPI bus as compared to the LPC bus.
+    - Channel 2: OOB Message Channel (SMBus tunneling)
+                 The Out-Of-Band (OOB) Message Channel is used to tunnel SMBus traffic over eSPI. These messages can include system logic and processor temperature values or SMBus Management Component Transport Protocol (MCTP) packets.
+    - Channel 3: Flash Access Channel (flash sharing) 
+                 The Flash Access Channel allows the system processor to share the system SPI Flash between the BIOS, Management Engine (ME) and the EC, BMC and SIO. This reduces system cost by reducing the number of SPI Flash chips in the system.
 Reference : 
 1. https://www.microchip.com/en-us/solutions/data-centers-and-computing/computing-solutions/technologies/espi
 
+
+SMBUS (System Management Bus)
+*****************************
+Description:
+1. SMBus technology is used in Smart Battery Systems, or SBS, which is often implemented in portable devices such as laptop computers, mobile devices, and cameras for efficient battery management. Smart Battery Systems consist of a host, smart charger, and smart battery and use SMBus for these components to communicate with each other and the rest of the system.
+Reference:
+1. https://www.nxp.com/docs/en/application-note/AN4471.pdf
+2. https://www.prodigytechno.com/smbus-protocol
+
+
+LTPI
+****
+Description:
+1. Replacement of two Serial GPIO (SGPIO) interfaces.  Provide higher bandwidth and scalability than the SGPIO interface.
+2. The GPIO channel information is packed into frames as defined in TDM fashion to send across two ends over a reduced-wire solution.
+Reference:
+1. https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDocuments/UserGuides/coreltpi_ug.pdf
+
+
+PECI (Platform Environment Control Interface)
+*********************************************
+Description:
+1. PECI  is a communication interface between Intel processor and management controllers.  It provides an interface for external devices to read processor temperature, perform processor manageability functions, and manage processor interface tuning and diagnostics.
+2. In server platforms, CPUs are the PECI slaves and BMC is the PECI master.
+References:
+
+
+Super I/O (SIO) - Still dont understand
+***************
+Description:
+1. Super I/O combines legacy functions (serial port, parallel ports, PS2) with hardware monitoring and general-purpose I/O to reduce the number of chips required in your design.
+Refernces:
+1. https://www.microchip.com/en-us/products/embedded-controllers-and-super-io
 
 
 ==========
