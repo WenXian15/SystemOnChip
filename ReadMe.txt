@@ -33,7 +33,7 @@ Description:
                  The Virtual Wire Channel is used to transmit the sideband signal information to/from the EC, BMC and SIO. Interrupts from peripheral devices, such as a UART, are also transmitted over the Virtual Wire channel. This channel greatly reduces                   the pin count and cost of the eSPI bus as compared to the LPC bus.
     - Channel 2: OOB Message Channel (SMBus tunneling)
                  The Out-Of-Band (OOB) Message Channel is used to tunnel SMBus traffic over eSPI. These messages can include system logic and processor temperature values or SMBus Management Component Transport Protocol (MCTP) packets.
-    - Channel 3: Flash Access Channel (flash sharing) 
+    - Channel 3: Flash Access Channel (flash sharing or eSPI device attached flash-eDAF) 
                  The Flash Access Channel allows the system processor to share the system SPI Flash between the BIOS, Management Engine (ME) and the EC, BMC and SIO. This reduces system cost by reducing the number of SPI Flash chips in the system.
 Reference : 
 1. https://www.microchip.com/en-us/solutions/data-centers-and-computing/computing-solutions/technologies/espi
