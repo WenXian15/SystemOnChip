@@ -1,0 +1,269 @@
+`timescale 1ns/1ps
+
+module ethernet_receiver_tb;
+
+    // Parameters
+    parameter CLK_PERIOD = 8;  // 125MHz for GMII
+    parameter DATA_WIDTH = 8;
+    
+    // Signals
+    reg clk;
+    reg clk_50m;
+    reg rst_n;
+    reg fifo_rst_n;
+    reg rx_dv;
+    reg [DATA_WIDTH-1:0] rxd;
+    
+    wire [7:0] rx_data;
+    wire rx_data_valid;
+    wire frame_start;
+    wire frame_end;
+    wire [15:0] frame_length;
+    wire frame_valid;
+    wire frame_error;
+    
+    // Frame generation parameters
+    reg [7:0] test_frame[$];  // Queue to store frame data
+    integer frame_idx;
+    
+    // Instantiate the ethernet_receiver
+    ethernet_receiver #(
+        .DATA_WIDTH(DATA_WIDTH),
+        .ENABLE_CRC(1)
+    ) dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .rx_dv(rx_dv),
+        .rxd(rxd),
+        .rx_data(rx_data),
+        .rx_data_valid(rx_data_valid),
+        .frame_start(frame_start),
+        .frame_end(frame_end),
+        .frame_length(frame_length),
+        .frame_valid(frame_valid),
+        .frame_error(frame_error)
+    );
+    
+    wire [8+2-1:0] rx_data_fifo;
+    wire is_empty_fifo;
+    wire is_full_fifo;
+    wire[10-1:0] WRCOUNT_fifo;
+    wire[10-1:0] RDCOUNT_fifo;
+    wire tx_busy;
+    wire tx_busy_fifo;
+    wire rd_en_fifo;
+    
+    assign rd_en_fifo = (WRCOUNT_fifo>2) & tx_busy_fifo;
+    
+    positive_edge_detector inst (
+        .clk(clk_50m),
+        .rst_n(rst_n),
+        .portA(tx_busy),
+        .edge_detect(tx_busy_fifo)
+        );
+    
+    
+    ethernet_uart_debug dut_ethernet_uart_debug (
+        .clk(clk_50m),
+        .rst_n(rst_n),
+        .rx_data_valid(~is_empty_fifo),
+        .rx_data(rx_data_fifo[7:0]),
+        .frame_start(rx_data_fifo[8]),
+        .frame_end(rx_data_fifo[9]),
+        .uart_tx(),
+        .tx_busy(tx_busy)
+    );
+    
+    
+    FIFO_DUALCLOCK_MACRO  #(
+      .ALMOST_EMPTY_OFFSET(9'h080), // Sets the almost empty threshold
+      .ALMOST_FULL_OFFSET(9'h080),  // Sets almost full threshold
+      .DATA_WIDTH(10),   // Valid values are 1-72 (37-72 only valid when FIFO_SIZE="36Kb")
+      .DEVICE("7SERIES"),  // Target device: "7SERIES" 
+      .FIFO_SIZE ("18Kb"), // Target BRAM: "18Kb" or "36Kb" 
+      .FIRST_WORD_FALL_THROUGH ("FALSE") // Sets the FIFO FWFT to "TRUE" or "FALSE" 
+   ) FIFO_DUALCLOCK_MACRO_inst (
+      .ALMOSTEMPTY(), // 1-bit output almost empty
+      .ALMOSTFULL(),   // 1-bit output almost full
+      .DO(rx_data_fifo),                   // Output data, width defined by DATA_WIDTH parameter
+      .EMPTY(is_empty_fifo),             // 1-bit output empty
+      .FULL(is_full_fifo),               // 1-bit output full
+      .RDCOUNT(RDCOUNT_fifo),         // Output read count, width determined by FIFO depth
+      .RDERR(),             // 1-bit output read error
+      .WRCOUNT(WRCOUNT_fifo),         // Output write count, width determined by FIFO depth
+      .WRERR(),             // 1-bit output write error
+      .DI({frame_start,frame_end,rx_data}),                   // Input data, width defined by DATA_WIDTH parameter
+      .RDCLK(clk_50m),             // 1-bit input read clock
+      .RDEN(rd_en_fifo),               // 1-bit input read enable
+      .RST(~rst_n),                 // 1-bit input reset
+      .WRCLK(clk),             // 1-bit input write clock
+      .WREN(rx_data_valid)                // 1-bit input write enable
+   );
+    
+    
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #(CLK_PERIOD/2) clk = ~clk;
+    end
+    
+    initial begin
+        clk_50m = 0;
+        forever #(20/2) clk_50m = ~ clk_50m;
+    end
+    
+    // CRC calculation function - same as in the main module for consistency
+    function [31:0] calc_crc;
+        input [7:0] data;
+        input [31:0] crc;
+        reg [31:0] new_crc;
+        integer i;
+        begin
+            new_crc = crc;
+            for (i = 0; i < 8; i = i + 1) begin
+                if ((data[i] ^ new_crc[31]) == 1'b1)
+                    new_crc = {new_crc[30:0], 1'b0} ^ 32'h04C11DB7;
+                else
+                    new_crc = {new_crc[30:0], 1'b0};
+            end
+            calc_crc = new_crc;
+        end
+    endfunction
+    
+    // Task to generate a frame with valid CRC
+    task generate_frame;
+        input [15:0] length;  // Length of payload
+        integer i;
+        reg [31:0] crc;
+        reg [7:0] data;
+        begin
+            test_frame = {};  // Clear the frame queue
+            
+            // Add preamble
+            repeat(7) test_frame.push_back(8'h55);
+            test_frame.push_back(8'hD5);  // SFD
+            
+            // Generate payload with incrementing pattern
+            crc = 32'hFFFFFFFF;
+            for(i = 0; i < length; i++) begin
+                data = i[7:0];
+                test_frame.push_back(data);
+                crc = calc_crc(data, crc);
+            end
+            
+            // Append CRC (in little-endian)
+            crc = ~crc;  // Final inversion
+            test_frame.push_back(crc[7:0]);
+            test_frame.push_back(crc[15:8]);
+            test_frame.push_back(crc[23:16]);
+            test_frame.push_back(crc[31:24]);
+        end
+    endtask
+    
+    // Task to send a frame
+    task send_frame;
+        begin
+            rx_dv = 1;
+            for(frame_idx = 0; frame_idx < test_frame.size(); frame_idx++) begin
+                rxd = test_frame[frame_idx];
+                @(posedge clk);
+            end
+            rx_dv = 0;
+            rxd = 0;
+            @(posedge clk);
+        end
+    endtask
+    
+    // Task to generate and send a corrupted frame
+    task send_corrupted_frame;
+        input [15:0] length;
+        begin
+            generate_frame(length);
+            // Corrupt the last byte of payload
+            test_frame[test_frame.size()-5] = test_frame[test_frame.size()-5] ^ 8'hFF;
+            send_frame();
+        end
+    endtask
+    
+    // Task to introduce an error in the preamble
+    task send_bad_preamble;
+        begin
+            generate_frame(64);  // Generate a minimum-size frame
+            test_frame[3] = 8'hAA;  // Corrupt one preamble byte
+            send_frame();
+        end
+    endtask
+    
+    // Monitor process
+    initial begin
+        $monitor("Time=%0t rx_dv=%b frame_start=%b frame_end=%b frame_valid=%b frame_error=%b length=%0d",
+                 $time, rx_dv, frame_start, frame_end, frame_valid, frame_error, frame_length);
+    end
+    
+    // Main test process
+    initial begin
+        // Initialize signals
+        rst_n = 0;
+        rx_dv = 0;
+        rxd = 0;     
+        
+        // Reset the DUT
+        #(CLK_PERIOD*150);
+        rst_n = 1;
+        #(CLK_PERIOD*10);
+       
+        
+        // Test Case 1: Minimum size frame (64 bytes)
+        $display("\nTest Case 1: Minimum size frame");
+        generate_frame(60);  // 60 + 4 CRC = 64 bytes
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 2: Medium size frame (512 bytes)
+        $display("\nTest Case 2: Medium size frame");
+        generate_frame(508);  // 508 + 4 CRC = 512 bytes
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 3: Maximum size frame (1518 bytes)
+        $display("\nTest Case 3: Maximum size frame");
+        generate_frame(1514);  // 1514 + 4 CRC = 1518 bytes
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 4: Corrupted frame
+        $display("\nTest Case 4: Corrupted frame");
+        send_corrupted_frame(60);
+        #(CLK_PERIOD*20);
+        
+        // Test Case 5: Bad preamble
+        $display("\nTest Case 5: Bad preamble");
+        send_bad_preamble();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 6: Undersized frame
+        $display("\nTest Case 6: Undersized frame");
+        generate_frame(46);  // 46 + 4 CRC = 50 bytes (too small)
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 7: Oversized frame
+        $display("\nTest Case 7: Oversized frame");
+        generate_frame(1515);  // 1515 + 4 CRC = 1519 bytes (too large)
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test Case 8: Early termination
+        $display("\nTest Case 8: Early termination");
+        generate_frame(100);
+        test_frame = test_frame[0:50];  // Truncate the frame
+        send_frame();
+        #(CLK_PERIOD*20);
+        
+        // Test complete
+        $display("\nTest completed");
+        #(CLK_PERIOD*100);
+        $finish;
+    end
+
+endmodule
