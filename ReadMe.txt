@@ -75,6 +75,19 @@ Refernces:
 1. https://www.microchip.com/en-us/products/embedded-controllers-and-super-io
 
 
+Storage
+
+SD & eMMC 
+*********
+Description:
+1. combo PHY 
+
+NVMe (nonvolatile memory express)
+*********************************
+Description:
+1. A protocol that allows for faster data transfer in solid-state drives (SSDs) and flash storage.
+2. Uses the PCIe bus to connect SSDs to CPUs or servers.
+
 ==========
 Components
 ==========
