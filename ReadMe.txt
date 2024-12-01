@@ -35,6 +35,10 @@ Description:
                  The Out-Of-Band (OOB) Message Channel is used to tunnel SMBus traffic over eSPI. These messages can include system logic and processor temperature values or SMBus Management Component Transport Protocol (MCTP) packets.
     - Channel 3: Flash Access Channel (flash sharing or eSPI device attached flash-eDAF) 
                  The Flash Access Channel allows the system processor to share the system SPI Flash between the BIOS, Management Engine (ME) and the EC, BMC and SIO. This reduces system cost by reducing the number of SPI Flash chips in the system.
+Data Rate:
+
+Electrical Interface:
+1. Open-drain
 Reference : 
 1. https://www.microchip.com/en-us/solutions/data-centers-and-computing/computing-solutions/technologies/espi
 2. https://support.apple.com/en-my/guide/security/sec5d0fab7c6/web (Apple Intel based Mac fetches UEFI firmware through eSPI from T2 Chip)
@@ -49,11 +53,17 @@ Reference:
 2. https://www.prodigytechno.com/smbus-protocol
 
 
-LTPI
-****
+LTPI (LVDS Tunelling Protocol Interface)
+****************************************
 Description:
 1. Replacement of two Serial GPIO (SGPIO) interfaces.  Provide higher bandwidth and scalability than the SGPIO interface.
-2. The GPIO channel information is packed into frames as defined in TDM fashion to send across two ends over a reduced-wire solution.
+2. An interface protocol designed fortunneling various low-speed signals between the Host Processor Module (HPM) and Secure Control Module(SCM).
+3. The GPIO channel information is packed into frames as defined in TDM fashion to send across two ends over a reduced-wire solution.
+Data Rate:
+1. SDR mode: 2.5MHz - 20MHz
+2. DDR mode: 5MHz - 40MHz
+Electrical Interface:
+1. LVDS
 Reference:
 1. https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDocuments/UserGuides/coreltpi_ug.pdf
 
