@@ -1,15 +1,16 @@
 `timescale 1ns/1ps
 
-module ethernet_receiver_tb;
+module ethernet_receiver_uart_dump_tb;
 
     // Parameters
     parameter CLK_PERIOD = 8;  // 125MHz for GMII
     parameter DATA_WIDTH = 8;
     
     // Signals
-    reg clk;
-    reg clk_50m;
-    reg rst_n;
+    input wire clk_125m;
+    input wire clk_50m;
+    input wire rst_n;
+
     reg fifo_rst_n;
     reg rx_dv;
     reg [DATA_WIDTH-1:0] rxd;
@@ -26,24 +27,6 @@ module ethernet_receiver_tb;
     reg [7:0] test_frame[$];  // Queue to store frame data
     integer frame_idx;
     
-    // Instantiate the ethernet_receiver
-    ethernet_receiver #(
-        .DATA_WIDTH(DATA_WIDTH),
-        .ENABLE_CRC(1)
-    ) dut (
-        .clk(clk),
-        .rst_n(rst_n),
-        .rx_dv(rx_dv),
-        .rxd(rxd),
-        .rx_data(rx_data),
-        .rx_data_valid(rx_data_valid),
-        .frame_start(frame_start),
-        .frame_end(frame_end),
-        .frame_length(frame_length),
-        .frame_valid(frame_valid),
-        .frame_error(frame_error)
-    );
-    
     wire [8+2-1:0] rx_data_fifo;
     wire is_empty_fifo;
     wire is_full_fifo;
@@ -54,63 +37,19 @@ module ethernet_receiver_tb;
     wire rd_en_fifo;
     
     assign rd_en_fifo = (WRCOUNT_fifo>2) & tx_busy_fifo;
-    
-    positive_edge_detector inst (
-        .clk(clk_50m),
-        .rst_n(rst_n),
-        .portA(tx_busy),
-        .edge_detect(tx_busy_fifo)
-        );
-    
-    
-    ethernet_uart_debug dut_ethernet_uart_debug (
-        .clk(clk_50m),
-        .rst_n(rst_n),
-        .rx_data_valid(~is_empty_fifo),
-        .rx_data(rx_data_fifo[7:0]),
-        .frame_start(rx_data_fifo[8]),
-        .frame_end(rx_data_fifo[9]),
-        .uart_tx(),
-        .tx_busy(tx_busy)
-    );
-    
-    
-    FIFO_DUALCLOCK_MACRO  #(
-      .ALMOST_EMPTY_OFFSET(9'h080), // Sets the almost empty threshold
-      .ALMOST_FULL_OFFSET(9'h080),  // Sets almost full threshold
-      .DATA_WIDTH(10),   // Valid values are 1-72 (37-72 only valid when FIFO_SIZE="36Kb")
-      .DEVICE("7SERIES"),  // Target device: "7SERIES" 
-      .FIFO_SIZE ("18Kb"), // Target BRAM: "18Kb" or "36Kb" 
-      .FIRST_WORD_FALL_THROUGH ("FALSE") // Sets the FIFO FWFT to "TRUE" or "FALSE" 
-   ) FIFO_DUALCLOCK_MACRO_inst (
-      .ALMOSTEMPTY(), // 1-bit output almost empty
-      .ALMOSTFULL(),   // 1-bit output almost full
-      .DO(rx_data_fifo),                   // Output data, width defined by DATA_WIDTH parameter
-      .EMPTY(is_empty_fifo),             // 1-bit output empty
-      .FULL(is_full_fifo),               // 1-bit output full
-      .RDCOUNT(RDCOUNT_fifo),         // Output read count, width determined by FIFO depth
-      .RDERR(),             // 1-bit output read error
-      .WRCOUNT(WRCOUNT_fifo),         // Output write count, width determined by FIFO depth
-      .WRERR(),             // 1-bit output write error
-      .DI({frame_start,frame_end,rx_data}),                   // Input data, width defined by DATA_WIDTH parameter
-      .RDCLK(clk_50m),             // 1-bit input read clock
-      .RDEN(rd_en_fifo),               // 1-bit input read enable
-      .RST(~rst_n),                 // 1-bit input reset
-      .WRCLK(clk),             // 1-bit input write clock
-      .WREN(rx_data_valid)                // 1-bit input write enable
-   );
-    
-    
-    // Clock generation
-    initial begin
-        clk = 0;
-        forever #(CLK_PERIOD/2) clk = ~clk;
-    end
-    
-    initial begin
-        clk_50m = 0;
-        forever #(20/2) clk_50m = ~ clk_50m;
-    end
+ 
+
+
+	ethernet_receiver_uart_dump #
+	(.CLK_PERIOD(),
+	 .DATA_WIDTH()
+	) u0_ethernet_receiver_uart_dump (
+	       .clk_125m(),
+	       .clk_50m(),
+	       .rst_n(),
+	       rxd()
+	);
+
     
     // CRC calculation function - same as in the main module for consistency
     function [31:0] calc_crc;

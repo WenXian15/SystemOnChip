@@ -1,0 +1,44 @@
+@	dual_clock_fifo.sv	/^always @(posedge wr_clk_i) begin$/
+@	positive_edge_detector.sv	/^    always @(posedge clk) begin$/
+@	uart_transmitter.sv	/^    always @(posedge clk or negedge rst_n) begin$/
+CLKS_PER_BIT	ethernet_uart_debug.sv	/^        .CLKS_PER_BIT(54)  \/\/ 115200 baud at 50MHz/
+DATA_WIDTH	ethernet_receiver_uart_dump.sv	/^        .DATA_WIDTH(DATA_WIDTH),$/
+FRAME_START_MARKER	ethernet_uart_debug.sv	23
+IDLE	ethernet_receiver.sv	24
+IDLE	uart_transmitter.sv	18
+SEND_MARKER	ethernet_uart_debug.sv	71
+bit_index	uart_transmitter.sv	26
+byte_count	ethernet_receiver.sv	44
+byte_to_send	ethernet_uart_debug.sv	19
+calc_crc	ethernet_receiver.sv	48
+clock_count	uart_transmitter.sv	25
+crc	ethernet_receiver.sv	50
+crc_calc	ethernet_receiver.sv	40
+crc_init	ethernet_receiver.sv	39
+crc_next	ethernet_receiver.sv	38
+data	ethernet_receiver.sv	49
+data_reg	uart_transmitter.sv	27
+edge_detect	positive_edge_detector.sv	10
+frame_idx	ethernet_receiver_uart_dump.sv	24
+gray_conv	dual_clock_fifo.sv	57
+gray_conv	dual_clock_fifo.sv	60
+i	ethernet_receiver.sv	52
+i	ethernet_receiver.sv	55
+in	dual_clock_fifo.sv	58
+mem	dual_clock_fifo.sv	114
+new_crc	ethernet_receiver.sv	51
+new_crc	ethernet_receiver.sv	54
+preamble_count	ethernet_receiver.sv	45
+rd_addr	dual_clock_fifo.sv	52
+rd_addr_gray	dual_clock_fifo.sv	53
+rd_addr_gray_wr	dual_clock_fifo.sv	54
+rd_addr_gray_wr_r	dual_clock_fifo.sv	55
+rx_dv	ethernet_receiver_uart_dump.sv	23
+send_byte	ethernet_uart_debug.sv	18
+state	ethernet_receiver.sv	43
+temp_reg	positive_edge_detector.sv	8
+test_frame	ethernet_receiver_uart_dump.sv	22
+wr_addr	dual_clock_fifo.sv	48
+wr_addr_gray	dual_clock_fifo.sv	49
+wr_addr_gray_rd	dual_clock_fifo.sv	50
+wr_addr_gray_rd_r	dual_clock_fifo.sv	51

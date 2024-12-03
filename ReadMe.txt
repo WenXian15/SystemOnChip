@@ -7,18 +7,23 @@ Mailbox
 Watchdog timer
 
 
+
 I2C, I3C, SPI
 *************
 Description:
-1. Both I²C and SPI are typically used to support multiple sensors, but they both have drawbacks for sensor interconnections.
-Effective Data Rate:
+1. Both I²C and SPI are typically used to support multiple sensors.  SPI is usually used for slave devices where speed matters e.g ADC peripherals, FLASH memories.  I2C is usually used for slave devices which are fine with I2C speed constraints or which is kind of slow like sensors which can take longer time to get the measure e.g. popular temperature and humidity sensors.  
+Data Rate:
 1. I3C : 10.6 Mbps at 12 MHz
 2. I2C : 3 Mbps max at 3.4 MHz
 3. SPI : 10 Mbps at 10 MHz
+Eletrical Interface:
+1. I3C/I2C : open-drain line (SDA) and push-pull clock line (SCL)
+2. SPI : push-pull
 Reference:
-1. https://2384176.fs1.hubspotusercontent-na1.net/hubfs/2384176/MIPI_Alliance_I3C_Whitepaper.pdf
-2. https://www.ti.com/content/dam/videos/external-videos/en-us/9/3816841626001/6305803223112.mp4/subassets/i3c_technology_training_2.pdf
-3. https://introspect.ca/blog/how-to-test-mctp-over-i3c/
+1. https://stackoverflow.com/questions/43422092/when-i-should-use-i2c-and-when-i-should-use-spi
+2. https://2384176.fs1.hubspotusercontent-na1.net/hubfs/2384176/MIPI_Alliance_I3C_Whitepaper.pdf
+3. https://www.ti.com/content/dam/videos/external-videos/en-us/9/3816841626001/6305803223112.mp4/subassets/i3c_technology_training_2.pdf
+4. https://introspect.ca/blog/how-to-test-mctp-over-i3c/
 
 
 eSPI
@@ -83,6 +88,11 @@ Description:
 2. SIO was connected to the chipset through the Low Pin Count (LPC) bus before eSPI.
 References:
 1. https://www.microchip.com/en-us/products/embedded-controllers-and-super-io
+
+
+CSI-2/DSI
+*********
+
 
 
 Storage

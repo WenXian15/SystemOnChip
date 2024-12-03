@@ -28,7 +28,7 @@ $(VDIRFB)/Vwbuart__ALL.a:     $(VDIRFB)/Vwbuart.cpp
 $(VDIRFB)/V%.mk:  $(VDIRFB)/%.h
 $(VDIRFB)/V%.h:   $(VDIRFB)/%.cpp
 $(VDIRFB)/V%.cpp: $(FBDIR)/%.sv
-	$(VERILATOR) --trace -MMD -Wall -cc $*.sv
+	$(VERILATOR) --trace -MMD -Wno-lint -cc $*.sv
 
 $(VDIRFB)/V%__ALL.a: $(VDIRFB)/V%.mk
 	cd $(VDIRFB); make -f V$*.mk
