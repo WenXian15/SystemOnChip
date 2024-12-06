@@ -8,8 +8,8 @@ Watchdog timer
 
 
 
-I2C, I3C, SPI
-*************
+I2C, I3C, SPI, QSPI
+*******************
 Description:
 1. Both I²C and SPI are typically used to support multiple sensors.  SPI is usually used for slave devices where speed matters e.g ADC peripherals, FLASH memories.  I2C is usually used for slave devices which are fine with I2C speed constraints or which is kind of slow like sensors which can take longer time to get the measure e.g. popular temperature and humidity sensors.  
 Data Rate:
