@@ -1,3 +1,8 @@
+Terminology 
+Narrow Transactions 
+Unaligned Transactions
+Refer to for some idea with block memory generator https://docs.amd.com/v/u/en-US/blk_mem_gen_ds512
+
 ===
 AHB
 ===
