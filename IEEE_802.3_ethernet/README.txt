@@ -1,3 +1,6 @@
+Reading:
+1. https://sci-hub.se/https://ieeexplore.ieee.org/document/7478337
+
 _______         __________                  ___________
  CPU  | PCI-E   |        |  MII/SGMII/RGMII |         |
  or   |<=======>| MAC    |<================>| PHY     |<====>physical interface 
