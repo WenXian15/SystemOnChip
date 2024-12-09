@@ -2,6 +2,10 @@ Reading:
 1. 
 2. https://people.ece.cornell.edu/land/courses/ece5760/FinalProjects/f2011/mis47_ayg6/mis47_ayg6/
 
+Learning from other's projects:
+1. https://fpga.eetrend.com/blog/2024/100585665.html
+2. https://www.cnblogs.com/yikoulinux/p/14232786.html
+
 _______         __________                  ___________
  CPU  | PCI-E   |        |  MII/SGMII/RGMII |         |
  or   |<=======>| MAC    |<================>| PHY     |<====>physical interface 
