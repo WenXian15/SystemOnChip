@@ -6,6 +6,7 @@ Docs to refer
 5. Shane Colton - https://scolton.blogspot.com/2024/01/pcie-deep-dive-part-4-ltssm.html
 6. Simon Southwell
 7. PIG-SIG - https://pcisig.com
+8. https://sci-hub.se/https://ieeexplore.ieee.org/document/7478337
 
 PCIe Debug Techniques
 1. https://xilinx.github.io/pcie-debug-kmap/pciedebug/build/html/docs/PCIe_Debug_General_Techniques/index.html
