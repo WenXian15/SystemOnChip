@@ -1,5 +1,5 @@
 Reading:
-1. https://sci-hub.se/https://ieeexplore.ieee.org/document/7478337
+1. 
 2. https://people.ece.cornell.edu/land/courses/ece5760/FinalProjects/f2011/mis47_ayg6/mis47_ayg6/
 
 _______         __________                  ___________
