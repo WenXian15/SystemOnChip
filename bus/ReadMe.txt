@@ -1,3 +1,6 @@
+Reading:
+1. https://github.com/pulp-platform/axi?tab=readme-ov-file
+
 Terminology 
 Incremental/Wrap Burst Support
 Narrow Transactions 
