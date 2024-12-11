@@ -19,6 +19,8 @@ Data Rate:
 Eletrical Interface:
 1. I3C/I2C : open-drain line (SDA) and push-pull clock line (SCL)
 2. SPI : push-pull
+Timing Requirement:
+1. https://www.analog.com/en/resources/technical-articles/i2c-timing-definition-and-specification-guide-part-2.html
 Reference:
 1. https://stackoverflow.com/questions/43422092/when-i-should-use-i2c-and-when-i-should-use-spi
 2. https://2384176.fs1.hubspotusercontent-na1.net/hubfs/2384176/MIPI_Alliance_I3C_Whitepaper.pdf
