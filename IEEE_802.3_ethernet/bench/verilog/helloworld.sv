@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module ethernet_receiver_uart_dump_tb;
+module helloworld(clk_125m, clk_50m);
 
     // Parameters
     parameter CLK_PERIOD = 8;  // 125MHz for GMII
@@ -9,7 +9,7 @@ module ethernet_receiver_uart_dump_tb;
     // Signals
     input wire clk_125m;
     input wire clk_50m;
-    input wire rst_n;
+    logic rst_n;
 
     reg fifo_rst_n;
     reg rx_dv;
@@ -36,18 +36,18 @@ module ethernet_receiver_uart_dump_tb;
     wire tx_busy_fifo;
     wire rd_en_fifo;
     
+    
+
     assign rd_en_fifo = (WRCOUNT_fifo>2) & tx_busy_fifo;
  
-
-
-	ethernet_receiver_uart_dump #
+    ethernet_receiver_uart_dump #
 	(.CLK_PERIOD(),
 	 .DATA_WIDTH()
 	) u0_ethernet_receiver_uart_dump (
-	       .clk_125m(),
-	       .clk_50m(),
-	       .rst_n(),
-	       rxd()
+	       .clk_125m(clk_125m),
+	       .clk_50m(clk_50m),
+	       .rst_n(rst_n),
+	       .rxd(rxd)
 	);
 
     
@@ -98,18 +98,20 @@ module ethernet_receiver_uart_dump_tb;
             test_frame.push_back(crc[31:24]);
         end
     endtask
-    
+   
+
+
     // Task to send a frame
     task send_frame;
         begin
             rx_dv = 1;
             for(frame_idx = 0; frame_idx < test_frame.size(); frame_idx++) begin
                 rxd = test_frame[frame_idx];
-                @(posedge clk);
+                @(posedge clk_125m);
             end
             rx_dv = 0;
             rxd = 0;
-            @(posedge clk);
+            @(posedge clk_125m);
         end
     endtask
     

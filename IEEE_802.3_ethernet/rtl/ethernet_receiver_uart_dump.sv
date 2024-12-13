@@ -42,15 +42,12 @@ module ethernet_receiver_uart_dump #(
     
     assign rd_en_fifo = (WRCOUNT_fifo>2) & tx_busy_fifo;
     
-    // Clock generation
-    initial begin
-        clk = 0;
-        forever #(CLK_PERIOD/2) clk = ~clk;
-
     // Instantiate the ethernet_receiver
     ethernet_receiver #(
         .DATA_WIDTH(DATA_WIDTH),
-        .ENABLE_CRC(1)
+        .ENABLE_CRC(1),
+	.MIN_FRAME_LEN(),
+	.MAX_FRAME_LEN()
     ) u0_ethernet_receiver (
         .clk(clk_125m),
         .rst_n(rst_n),
@@ -76,7 +73,7 @@ module ethernet_receiver_uart_dump #(
     
     assign rd_en_fifo = (WRCOUNT_fifo>2) & tx_busy_fifo;
     
-    positive_edge_detector inst (
+    positive_edge_detector u0_positive_edge_detector (
         .clk(clk_50m),
         .rst_n(rst_n),
         .portA(tx_busy),

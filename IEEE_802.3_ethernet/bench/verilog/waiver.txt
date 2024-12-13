@@ -1,0 +1,55 @@
+// DESCRIPTION: Verilator output: Waivers generated with --waiver-output
+
+`verilator_config
+
+// Below you find suggested waivers. You have three options:
+//   1. Fix the reason for the linter warning
+//   2. Keep the waiver permanently if you are sure this is okay
+//   3. Keep the waiver temporarily to suppress the output
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not used: 'clk_125m'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not used: 'clk_50m'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not used: 'rst_n'"
+
+// lint_off -rule UNUSEDPARAM -file "*helloworld.sv" -match "Parameter is not used: 'CLK_PERIOD'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'fifo_rst_n'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rx_dv'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rxd'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rx_data'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rx_data_valid'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_start'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_end'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_length'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_valid'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_error'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'frame_idx'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rx_data_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'is_empty_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'is_full_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'WRCOUNT_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'RDCOUNT_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'tx_busy'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'tx_busy_fifo'"
+
+// lint_off -rule UNUSEDSIGNAL -file "*helloworld.sv" -match "Signal is not driven, nor used: 'rd_en_fifo'"
+
