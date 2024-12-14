@@ -12,6 +12,7 @@ SYSVDR	:= $(VROOT)/include
 all:	$(OBJDIR)/ helloworld
 
 define mk-objdir
+	@echo "mk-objdir"
 	@bash -c "if [ ! -e $(OBJDIR) ]; then mkdir -p $(OBJDIR); fi"
 endef
 
@@ -31,6 +32,11 @@ depends:
 	$(build-depends)
 
 $(OBJDIR)/depends.txt: depends
+
+# Not sure what is this 
+ifneq ($(MAKECMDGOALS),clean)
+-include $(OBJDIR)/depends.txt
+endif
 
 # Verilator's generated Makefile sets VM_*
 VSRC	:= $(addsuffix .cpp, $(VM_GLOBAL_FAST) $(VM_GLOBAL_SLOW)) 
@@ -52,6 +58,7 @@ HLOOBJ := $(subst .cpp,.o,$(HLOSRCS))
 HLOOBJS := $(addprefix $(OBJDIR)/,$(HLOOBJ)) $(VLIB)
 helloworld: $(HLOOBJS) $(VOBJDR)/Vhelloworld__ALL.a
 	$(CXX) $(FLAGS) $(INCS) $^ -lpthread -o $@
+	@echo "Run helloworld"
 
 .PHONY: clean
 clean:

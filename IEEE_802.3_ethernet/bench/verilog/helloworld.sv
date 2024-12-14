@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module helloworld(clk_125m, clk_50m);
+module helloworld(clk_125m, clk_50m, o_uart_tx);
 
     // Parameters
     parameter CLK_PERIOD = 8;  // 125MHz for GMII
@@ -9,6 +9,8 @@ module helloworld(clk_125m, clk_50m);
     // Signals
     input wire clk_125m;
     input wire clk_50m;
+    output wire o_uart_tx;
+
     logic rst_n;
 
     reg fifo_rst_n;
@@ -47,7 +49,7 @@ module helloworld(clk_125m, clk_50m);
 	       .clk_125m(clk_125m),
 	       .clk_50m(clk_50m),
 	       .rst_n(rst_n),
-	       .rxd(rxd)
+	       .rxd(o_uart_tx)
 	);
 
     
