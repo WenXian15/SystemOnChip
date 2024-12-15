@@ -1,8 +1,12 @@
+https://msyksphinz.hatenablog.com/entry/2030/01/01/000000
+
 Cache 
 
 Reading
 1. Immediate Understand : https://www.youtube.com/watch?v=ISaYWm8T8n4
-2. https://msyksphinz.hatenablog.com/entry/2017/07/13/020620
+2. Tilelink : 
+    a. https://msyksphinz.hatenablog.com/entry/2017/07/13/020620
+3. https://prod.tinker.cc.gatech.edu/pdfs/MICRO44_Jesse_Beu.pdf
 
 Basic MESI Concept
 - Modified: The cache line is present only in the current cache, and is dirty; it has been modified from the value in main memory. The cache is required to write the data back to main memory at some
