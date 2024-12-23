@@ -1,0 +1,30 @@
+- Controller Data Structure in Non-HCI Mode
+
+Transfer Command Data Structure
+Transfer Argument Data Structure
+Short Data Argument Data Strucuture
+Address Assignment Command Data Structure
+Unified Command Structure
+
+- Controller Data Structures in HCI Mode
+
+Address Assignment Command
+Immediate Data Transfer Command
+Regular Data Transfer Command
+Combo Transfer Command
+
+Device Address Table Data Structure
+
+Programming the controller
+
+
+
+Private Read/Write Transfers
+
+
+
+Concept
+-------
+Dynamic Address, IBI, Hot-Join, CCC
+HCI Mode and Non-HCI Mode 
+Controller/Target Devices
