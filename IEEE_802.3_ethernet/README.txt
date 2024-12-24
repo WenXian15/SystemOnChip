@@ -1,5 +1,5 @@
 Reading:
-1. 
+1. https://github.com/alexforencich/verilog-ethernet/tree/master
 2. https://people.ece.cornell.edu/land/courses/ece5760/FinalProjects/f2011/mis47_ayg6/mis47_ayg6/
 
 Learning from other's projects:
