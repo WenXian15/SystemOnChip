@@ -1,7 +1,7 @@
 Reading:
 1. https://github.com/alexforencich/verilog-ethernet/tree/master
 2. https://people.ece.cornell.edu/land/courses/ece5760/FinalProjects/f2011/mis47_ayg6/mis47_ayg6/
-3. wireshark folder
+3. https://www.javatpoint.com/computer-network-tutorial
 
 Learning from other's projects:
 1. https://fpga.eetrend.com/blog/2024/100585665.html
