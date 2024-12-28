@@ -7,6 +7,7 @@ Docs to refer
 6. Simon Southwell
 7. PIG-SIG - https://pcisig.com
 8. https://sci-hub.se/https://ieeexplore.ieee.org/document/7478337
+9. Choosing Between Ethernet and PCIe - https://www.electronicdesign.com/technologies/communications/article/21800361/whats-the-difference-between-pci-express-and-ethernet-in-cost-and-power-consumption
 
 PCIe Debug Techniques
 1. https://xilinx.github.io/pcie-debug-kmap/pciedebug/build/html/docs/PCIe_Debug_General_Techniques/index.html
