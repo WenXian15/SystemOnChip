@@ -1,11 +1,17 @@
 Reading:
 1. https://github.com/pulp-platform/axi?tab=readme-ov-file
 
-Terminology 
+Concept 
 Incremental/Wrap Burst Support
 Narrow Transactions 
-Unaligned Transactions
+
 Refer to for some idea with block memory generator https://docs.amd.com/v/u/en-US/blk_mem_gen_ds512
+
+## Address Alignment
+4-byte aligned (least significant 2 bits are 0)
+16-byte aligned address (least significant 4 bits are 0)
+32-byte aligned address (least significant 5 bits are 0)
+64-byte aligned address (least significant 6 bits are 0)
 
 ===
 AHB
