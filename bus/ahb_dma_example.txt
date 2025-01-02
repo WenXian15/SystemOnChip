@@ -1,0 +1,88 @@
+Reading:
+1. Synopsys DWC_ether_qos_databook
+2. https://medium.com/@jkstoyanov/aligned-and-unaligned-memory-access-9b5843b7f4ac
+
+Aligning AHB Burst Transfers to An Address Value
+
+For example, in the 32-bit data bus mode, if the start address of a data buffer transfer is 0xF000_0008 and
+you configure the DMA for a maximum beat size of 16, the AHB transfers occur in the following sequence:
+  1. Two SINGLE transfers at addresses 0xF000_0008 and 0xF000_000C.
+  2. One INCR4 transfer at address 0xF000_0010.
+  3. One INCR8 transfer at address 0xF000_0020.
+  4. All subsequent beats are INCR16 transfers starting from address 0xF000_0040.
+For an address-aligned INCR16 transfer, the least-significant 6 bits of the address must be 0.
+
+
+====================================================================================================================
+In this context of a 32-bit data bus mode, 1 word = 4 bytes.
+This can be verified from the example:
+
+Each SINGLE transfer is at addresses 4 bytes apart (0xF000_0008 → 0xF000_000C)
+INCR4 transfer means 4 words = 16 bytes
+INCR8 transfer means 8 words = 32 bytes
+INCR16 transfer means 16 words = 64 bytes
+
+This makes sense since we're working with a 32-bit (4-byte) data bus mode, so each word transfer moves 4 bytes of data.
+====================================================================================================================
+A "maximum beat size of 16" in DMA transfers means the DMA controller can transfer up to 16 words in a single burst (also called a beat).
+In this context:
+
+Each beat/burst can transfer 1, 4, 8, or 16 words
+16 is the maximum - it's the largest allowed burst size
+This corresponds to the different transfer types we saw:
+
+SINGLE: 1 word per beat
+INCR4: 4 words per beat
+INCR8: 8 words per beat
+INCR16: 16 words per beat (maximum)
+
+
+
+The DMA controller will try to use the largest possible beat size that's allowed by:
+
+The maximum configured beat size (16 in this case)
+The address alignment (as we saw in the sequence)
+
+So even though we configured a maximum beat size of 16, the DMA had to use smaller beats (SINGLE, INCR4, INCR8) at the start because the addresses weren't properly aligned for INCR16 transfers. Once it reached proper 64-byte alignment, it could use the maximum configured beat size of INCR16.
+
+
+=====================================================================================================================
+
+At 0xF000_0008:
+
+The address is only 4-byte aligned (least significant 2 bits are 0), so it can't start with a larger burst
+Therefore it needs 2 individual SINGLE transfers:
+
+  0xF000_0008 (first 4 bytes)
+  0xF000_000C (next 4 bytes)
+
+At 0xF000_0010:
+
+Now we're at a 16-byte aligned address (least significant 4 bits are 0)
+Can do INCR4 transfer (4 words = 16 bytes)
+Takes us to 0xF000_0020
+
+At 0xF000_0020:
+
+We're at a 32-byte aligned address (least significant 5 bits are 0)
+Can do INCR8 transfer (8 words = 32 bytes)
+Takes us to 0xF000_0040
+
+At 0xF000_0040 and beyond:
+
+Finally at a 64-byte aligned address (least significant 6 bits are 0)
+Can now do maximum INCR16 transfers (16 words = 64 bytes each)
+All subsequent transfers will be INCR16
+
+This sequence demonstrates how the DMA controller optimizes transfers by:
+
+Handling unaligned addresses with single transfers
+Progressively increasing burst sizes as alignment improves
+Eventually reaching maximum efficiency with INCR16 once proper 64-byte alignment is achieved
+
+The requirement for the least significant 6 bits to be 0 for INCR16 transfers makes sense because:
+
+16 words × 4 bytes = 64 bytes
+64 requires 6 bits (2^6 = 64)
+Therefore address must be 64-byte aligned (6 LSBs = 0)
+
