@@ -12,6 +12,9 @@ Refer to for some idea with block memory generator https://docs.amd.com/v/u/en-U
 16-byte aligned address (least significant 4 bits are 0)
 32-byte aligned address (least significant 5 bits are 0)
 64-byte aligned address (least significant 6 bits are 0)
+Reference:
+1. ahb_dma_example.txt
+2. https://medium.com/@jkstoyanov/aligned-and-unaligned-memory-access-9b5843b7f4ac
 
 ===
 AHB
