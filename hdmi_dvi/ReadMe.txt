@@ -16,9 +16,9 @@ Status Registers:
 pixel_fetch_fifo
 - ram with 10-bit address [9:0], and each address holds 32-bits data.  Therefore 1024x32 
 
-//----------------
-// fifo allocation
-//----------------
+//-----------------//
+// fifo allocation //
+//-----------------//
 - allocated_q[15:0] keep tracks of the number of 32-bits written to the pixel_fetch_fifo
 - data is written to the fifo when (outport_arvalid_o == 1 && outport_arready_i == 1).  In addition when (pixel_valid_w == 1 && pixel_pop_w == 1), 
     allocated_q <= allocated_q + {6'b0, outport_arlen_o, 2'b0} aka increment by 28
@@ -27,7 +27,7 @@ pixel_fetch_fifo
 
     outport_arlen_o = (BURST_LEN/4) - 1 where BURST_LEN=32
 
-    allocated_q has the unit of Byte, so increment by 32 means 32 * 32?
+    allocated_q has the unit of Byte, so increment by 32 means 32 * 32, increment by 28 means that ?
 
 //-------------//
 // axi request //
