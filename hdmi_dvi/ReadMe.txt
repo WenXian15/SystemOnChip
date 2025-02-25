@@ -27,7 +27,7 @@ pixel_fetch_fifo
 
     outport_arlen_o = (BURST_LEN/4) - 1 where BURST_LEN=32
 
-    allocated_q has the unit of Byte, so increment by 32 means 32 bytes?
+    allocated_q has the unit of Byte, so increment by 32 means 32 * 32?
 
 //-------------//
 // axi request //
