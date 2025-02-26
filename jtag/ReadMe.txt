@@ -28,4 +28,4 @@ b. Debug Tap (STM32F407VG) - refer to Reading2 for more details
   5. ABORT
 
 
-  
+Understand how to write   
